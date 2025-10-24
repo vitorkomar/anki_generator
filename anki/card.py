@@ -6,7 +6,7 @@ def generate_card(word, translation, pairs, audio=False):
         note = genanki.Note(
         model=model,
         fields=[
-            word,
+            word+"<br>[sound:"+word+".mp3]",
             translation,
             pairs[0][0]+"<br>[sound:"+pairs[0][0]+".mp3]",
             pairs[1][0]+"<br>[sound:"+pairs[1][0]+".mp3]",
@@ -29,6 +29,39 @@ def generate_card(word, translation, pairs, audio=False):
                 pairs[0][1],
                 pairs[1][1],
                 pairs[2][1]
+            ]
+        )
+
+    return note
+
+def generate_reverse_card(word, translation, pairs, audio=False):
+    if audio:
+        note = genanki.Note(
+        model=model,
+        fields=[
+            translation.split('/')[0],
+            word+"<br>[sound:"+word+".mp3]",
+            pairs[0][1],
+            pairs[1][1],
+            pairs[2][1],
+            pairs[0][0]+"<br>[sound:"+pairs[0][0]+".mp3]",
+            pairs[1][0]+"<br>[sound:"+pairs[1][0]+".mp3]",
+            pairs[2][0]+"<br>[sound:"+pairs[2][0]+".mp3]"
+        ]
+    )
+        
+    else:
+        note = genanki.Note(
+            model=model,
+            fields=[
+                translation,
+                word,
+                pairs[0][1],
+                pairs[1][1],
+                pairs[2][1],
+                pairs[0][0],
+                pairs[1][0],
+                pairs[2][0]
             ]
         )
 

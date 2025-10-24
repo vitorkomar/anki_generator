@@ -1,8 +1,5 @@
 import genanki
 
-# ⚠️ If you want Anki to treat this as the *same* note type,
-# replace MODEL_ID below with your real model id (from AnkiConnect).
-# Otherwise, pick any unique 32-bit int.
 MODEL_ID = 1234567890
 
 model = genanki.Model(
@@ -23,37 +20,45 @@ model = genanki.Model(
         'name': 'Card 1',
         'qfmt': """{{Front}}
 
-        <div style='font-family: "Liberation Sans"; font-size: 20px;'>{{frase_1}}</div>
+{{#frase_1}}<div class="frase">{{frase_1}}</div>{{/frase_1}}
+{{#frase_2}}<div class="frase">{{frase_2}}</div>{{/frase_2}}
+{{#frase_3}}<div class="frase">{{frase_3}}</div>{{/frase_3}}""",
 
-        <div style='font-family: "Liberation Sans"; font-size: 20px;'>{{frase_2}}</div>
+        'afmt': """{{FrontSide}}
+<hr id=answer>
+{{Back}}
 
-        <div style='font-family: "Liberation Sans"; font-size: 20px;'>{{frase_3}}</div>
-        """,
-                    'afmt': """{{FrontSide}}
-
-        <hr id=answer>
-
-        {{Back}}
-        <div style='font-family: "Liberation Sans"; font-size: 20px;'>{{frase_1_trad}}</div>
-
-        <div style='font-family: "Liberation Sans"; font-size: 20px;'>{{frase_2_trad}}</div>
-
-        <div style='font-family: "Liberation Sans"; font-size: 20px;'>{{frase_3_trad}}</div>
-        """,
+{{#frase_1_trad}}<div class="frase trad">{{frase_1_trad}}</div>{{/frase_1_trad}}
+{{#frase_2_trad}}<div class="frase trad">{{frase_2_trad}}</div>{{/frase_2_trad}}
+{{#frase_3_trad}}<div class="frase trad">{{frase_3_trad}}</div>{{/frase_3_trad}}""",
         }
     ],
     css="""
 .card {
-    font-family: arial;
-    font-size: 20px;
-    text-align: center;
-    color: black;
-    background-color: white;
+  font-family: arial;
+  font-size: 20px;
+  text-align: center;
+  color: black;
+  background-color: white;
+}
+
+/* Add space *between* frases */
+.frase {
+  font-family: "Liberation Sans";
+  font-size: 20px;
+  margin-top: 0.5em;   /* space above each line */
+  margin-bottom: 0.5em;/* space below each line */
+  line-height: 1.4;
+}
+
+/* Optional: tweak translated frases separately if you want */
+.frase.trad {
+  opacity: 0.95;      /* or leave this out */
 }
 """
 )
 
-# Example note (fill the fields in the SAME order as defined above):
+# Example note (fields in the same order as defined above):
 note = genanki.Note(
     model=model,
     fields=[
@@ -67,8 +72,3 @@ note = genanki.Note(
         'frase 3 tradução',          # frase_3_trad
     ],
 )
-
-# # (Optional) Build a deck/package:
-# deck = genanki.Deck(9876543210, 'My Deck')
-# deck.add_note(note)
-# genanki.Package(deck).write_to_file('my_deck.apkg')
